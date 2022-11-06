@@ -3,6 +3,7 @@
 import Button from "../components/base/Button";
 import styled from '@emotion/styled'
 import tw from 'twin.macro';
+import Input from "../components/base/Input";
 
 
 export default function Page() {
@@ -13,6 +14,9 @@ export default function Page() {
         Hello world!
       </h1>
       <Button />
+      <div>
+        <Input />
+      </div>
     </>
   );
 }
