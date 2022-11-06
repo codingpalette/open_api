@@ -19,10 +19,22 @@ interface InputProps {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
+
+
 const Input = ({type, width, size, placeholder, maxLength, disabled, value, onChange} : InputProps) => {
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange?.(e);
+  };
+
   return(
     <>
-      <InputTag type={type} value={value} onChange={onChange} />
+      <InputTag
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={handleChange}
+      />
     </>
   )
 }
