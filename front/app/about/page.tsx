@@ -1,13 +1,9 @@
-
-
 const Page = () => {
-  return(
+  return (
     <>
-      <div>
-        sdfsdf
-      </div>
+      <div>test</div>
     </>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;
