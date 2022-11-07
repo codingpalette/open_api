@@ -6,6 +6,7 @@ import styled from '@emotion/styled'
 import tw from 'twin.macro';
 import Input from "../components/base/Input";
 import useInput from "../hooks/useInput";
+import {test, testPost} from "../lib/apis/auth";
 
 
 export default function Page() {
@@ -14,6 +15,24 @@ export default function Page() {
   useEffect(() => {
     console.log('value', value)
   }, [value])
+
+  const onClickTest = async () => {
+    try {
+      const res = await test()
+      console.log(res)
+    } catch (e) {
+      console.error('error', e)
+    }
+  }
+
+  const onClickTest2 = async () => {
+    try {
+      const res = await testPost({id:1, username: "username"})
+      console.log(res)
+    } catch (e) {
+      console.error('error', e)
+    }
+  }
 
 
   return (
@@ -27,6 +46,12 @@ export default function Page() {
       </Button>
       <div>
         <Input value={value} onChange={onChangeValue}  />
+      </div>
+      <div onClick={onClickTest}>
+        통신 테스트
+      </div>
+      <div onClick={onClickTest2}>
+        통신 테스트2
       </div>
     </>
   );
