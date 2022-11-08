@@ -2,4 +2,22 @@
 
 ### FRONT
 
+- settings
+
+  - next 13 version
+  - typescript
+  - tailwindCss setup- settings
+
+> TODO
+
+- [ ] HOME
+- [ ] AUTH
+- [ ] WEATHER
+- [ ] MOVIES
+
 ### BACK
+
+- settings
+
+  - nestJS
+  - typescript
