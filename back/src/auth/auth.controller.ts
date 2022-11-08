@@ -21,7 +21,8 @@ export class AuthController {
 
   @ApiOperation({ summary: '로그인' })
   @Post('/login')
-  authLogin(@Body() body: LoginAuthDto) {
+  async authLogin(@Body() body: LoginAuthDto) {
+    await this.authService.authCreate(body)
     return true
   }
 
