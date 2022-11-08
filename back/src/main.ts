@@ -12,10 +12,10 @@ async function bootstrap() {
 
   /** 스웨거 설정 시작 */
   const config = new DocumentBuilder()
-    .setTitle('Cats example')
+    .setTitle('opan_api 문서')
     .setDescription('The cats API description')
     .setVersion('1.0')
-    .addTag('cats')
+    .addCookieAuth('connect.sid')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api_docs', app, document);
