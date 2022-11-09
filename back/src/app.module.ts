@@ -7,9 +7,9 @@ import { AppService } from './app.service';
 import { TestModule } from './test/test.module';
 import { ItemModule } from './item/item.module';
 import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+import {User} from "./entities/User";
 
-
-import {Users} from "./entities/Users";
 
 
 
@@ -18,12 +18,12 @@ import {Users} from "./entities/Users";
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: '127.0.0.1',
       port: 3306,
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [Users],
+      entities: [User],
       migrations: [__dirname + '/src/migrations/*.ts'],
       autoLoadEntities: true,
       charset: 'utf8mb4',
@@ -33,7 +33,8 @@ import {Users} from "./entities/Users";
     }),
     TestModule,
     ItemModule,
-    AuthModule
+    AuthModule,
+    UserModule
   ],
   controllers: [AppController],
   providers: [AppService],
