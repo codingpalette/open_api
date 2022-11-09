@@ -1,6 +1,6 @@
 # open_api
 
-### FRONT
+## FRONT
 
 - settings
 
@@ -15,9 +15,14 @@
 - [ ] WEATHER
 - [ ] MOVIES
 
-### BACK
+## BACK
 
 - settings
 
   - nestJS
   - typescript
+
+### BACK .ENV
+  DB_USERNAME=root
+  DB_PASSWORD=root
+  DB_DATABASE=root
