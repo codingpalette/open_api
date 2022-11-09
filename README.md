@@ -24,5 +24,7 @@
 
 ### BACK .ENV
   DB_USERNAME=root
+
   DB_PASSWORD=root
+
   DB_DATABASE=root
