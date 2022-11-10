@@ -1,12 +1,18 @@
 import { ValidationPipe } from "@nestjs/common";
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import * as passport from 'passport';
+import * as cookieParser from 'cookie-parser';
+import * as session from 'express-session';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 declare const module: any;
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  // 콜스 해결코드
   app.enableCors({
     origin: true,
     credentials: true,
@@ -33,6 +39,23 @@ async function bootstrap() {
       transform: true
     })
   );
+
+  // 쿠기, 세션 설정
+  app.use(cookieParser());
+  app.use(
+    session({
+      resave: false,
+      saveUninitialized: false,
+      secret: process.env.COOKIE_SECRET,
+      cookie: {
+        httpOnly: true,
+      },
+    }),
+  );
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+
   await app.listen(4000);
 
   if (module.hot) {

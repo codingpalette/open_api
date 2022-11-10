@@ -7,7 +7,7 @@ import { AppService } from './app.service';
 import { TestModule } from './test/test.module';
 import { ItemModule } from './item/item.module';
 import { AuthModule } from './auth/auth.module';
-import { UserModule } from './user/user.module';
+import { UsersModule } from './users/users.module';
 import {User} from "./entities/User";
 
 
@@ -34,7 +34,7 @@ import {User} from "./entities/User";
     TestModule,
     ItemModule,
     AuthModule,
-    UserModule
+    UsersModule
   ],
   controllers: [AppController],
   providers: [AppService],
