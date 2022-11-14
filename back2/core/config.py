@@ -11,6 +11,7 @@ class Settings(BaseSettings):
 
     API_V1_STR: str = "/api/v1"
     TOKEN_KEY: str = os.getenv('TOKEN_KEY')
+    ALG: str = "HS256"
     ACCESS_TOKEN_TIME = 1
     REFRESH_TOKEN_TIME = 14
 

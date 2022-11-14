@@ -3,27 +3,32 @@ from fastapi import Depends, FastAPI, HTTPException, status, APIRouter
 from fastapi.responses import JSONResponse
 from core.config import settings
 from crud import crud_user
+from starlette.requests import Request
 import schemas
-from functions.token import functions
+from functions.token import token
 import datetime
 
 router = APIRouter()
 
 
+@router.get('/me')
+async def user_me(request: Request):
+    return request.state.user
 
+@router.get('/check')
+async def user_check():
+    return True
 
-@router.get('')
-async def get_test():
+@router.post('/test')
+async def user_test():
 
-    print(settings.TOKEN_KEY)
-    await crud_user.user.crud_test()
     return True
 
 @router.post('/login')
 async def user_login(post_data: schemas.user.UserLogin):
     user_info = await crud_user.user.user_login(post_data)
-    access_token = functions.create_token("access_token", user_info)
-    refresh_token = functions.create_token('refresh_token')
+    access_token = token.create_token("access_token", user_info)
+    refresh_token = token.create_token('refresh_token')
     print('access_token', access_token)
     print('refresh_token', refresh_token)
     token_update = await crud_user.user.user_refresh_token_update(user_info, refresh_token)
