@@ -15,6 +15,10 @@ router = APIRouter()
 async def user_me(request: Request):
     return request.state.user
 
+@router.get('/test2')
+async def test2():
+    return JSONResponse(status_code=200, content={"result": "success", "message": "수정 성공"})
+
 @router.get('/check')
 async def user_check():
     return True

@@ -7,8 +7,14 @@ import tw from 'twin.macro';
 import Input from '../components/base/Input';
 import useInput from '../hooks/useInput';
 import { test, testPost } from '../lib/apis/auth';
+import {userLogin} from "../lib/apis/uaer";
+import {AxiosError} from "axios";
+
+
+
 
 export default function Page() {
+
   const [value, onChangeValue, resetValue] = useInput('');
 
   useEffect(() => {
@@ -26,10 +32,15 @@ export default function Page() {
 
   const onClickTest2 = async () => {
     try {
-      const res = await testPost({ id: 1, username: 'username' });
+      const res = await userLogin({username: 'string', password: 'string' });
       console.log(res);
-    } catch (e) {
-      console.error('error', e);
+    } catch (error) {
+      const { response } = error as unknown as AxiosError;
+      if (response) {
+        console.log(response.data)
+        throw { status: response.status, data: response.data };
+      }
+      throw error;
     }
   };
 
