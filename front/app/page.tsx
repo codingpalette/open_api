@@ -2,18 +2,20 @@
 import { useEffect, useState } from 'react';
 
 import Button from '../components/base/Button';
-import styled from '@emotion/styled';
-import tw from 'twin.macro';
 import Input from '../components/base/Input';
 import useInput from '../hooks/useInput';
-import { test, testPost } from '../lib/apis/auth';
 import {userLogin} from "../lib/apis/uaer";
 import {AxiosError} from "axios";
+import BasicLayout from "../components/layouts/BasicLayout";
+import Link from "next/link";
+import fetcher from "../lib/fetcher";
+import useSWR from 'swr'
 
 
 
 
 export default function Page() {
+
 
   const [value, onChangeValue, resetValue] = useInput('');
 
@@ -22,12 +24,11 @@ export default function Page() {
   }, [value]);
 
   const onClickTest = async () => {
-    try {
-      const res = await test();
-      console.log(res);
-    } catch (e) {
-      console.error('error', e);
-    }
+    // try {
+    //   console.log(res);
+    // } catch (e) {
+    //   console.error('error', e);
+    // }
   };
 
   const onClickTest2 = async () => {
@@ -46,16 +47,27 @@ export default function Page() {
 
   return (
     <>
-      <h1>Hello, Next.js!</h1>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-      <Button theme="primary" onClick={resetValue}>
-        리셋 버튼
-      </Button>
-      <div>
-        <Input value={value} onChange={onChangeValue} />
-      </div>
-      <div onClick={onClickTest}>통신 테스트</div>
-      <div onClick={onClickTest2}>통신 테스트2</div>
+      <BasicLayout>
+        <h1>Hello, Next.js!</h1>
+        <h1 className="text-3xl font-bold underline">Hello world!</h1>
+        <Button theme="primary" onClick={resetValue}>
+          리셋 버튼
+        </Button>
+        <div>
+          <Input value={value} onChange={onChangeValue} />
+        </div>
+        <div onClick={onClickTest}>통신 테스트</div>
+        <div onClick={onClickTest2}>통신 테스트2</div>
+
+        <div className="mt-4">
+          <p>링크박스</p>
+          <div>
+            <Link href="/about">
+              about
+            </Link>
+          </div>
+        </div>
+      </BasicLayout>
     </>
   );
 }
