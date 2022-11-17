@@ -17,21 +17,34 @@ export const userTest = async () => {
 }
 
 // 유저 me api
-// export const userMe = async () => {
-//   const response = await apiCreator.get('/api/v1/users/me')
-//   return response.data
-// }
-
 export const userMe = () => {
-
   const { data, error, mutate, isValidating } = useSWR(`/api/v1/users/me`, fetcher, {
     // refreshInterval: 1000
   })
-
   return {
     data,
     isLoading: !error && !data,
     isError: error,
     mutate
+  }
+}
+
+// 쿼리 테스트 api
+export const userQuery = (where: any) => {
+
+  let addWhere = ""
+  for (const [key, value] of Object.entries(where)) {
+    if (value !== "") {
+      addWhere += `${key}=${value}&`
+    }
+  }
+  console.log(addWhere)
+
+  const { data, error} = useSWR(`/api/v1/users/query?${addWhere}`, fetcher)
+
+  return {
+    data,
+    isLoading: !error && !data,
+    isError: error,
   }
 }

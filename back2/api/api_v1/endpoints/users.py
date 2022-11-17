@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, Optional
 from fastapi import Depends, FastAPI, HTTPException, status, APIRouter
 from fastapi.responses import JSONResponse
 from core.config import settings
@@ -18,6 +18,10 @@ async def user_me(request: Request):
 @router.get('/test2')
 async def test2():
     return JSONResponse(status_code=200, content={"result": "success", "message": "수정 성공"})
+
+@router.get('/query')
+async def user_query(text: Optional[str] = ''):
+    return JSONResponse(status_code=200, content={"result": "success", "data": text})
 
 @router.get('/check')
 async def user_check():
