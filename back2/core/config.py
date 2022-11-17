@@ -15,6 +15,12 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_TIME = 1
     REFRESH_TOKEN_TIME = 14
 
+    DB_HOST: str = os.getenv('DB_HOST')
+    DB_USERNAME: str = os.getenv('DB_USERNAME')
+    DB_PASSWORD: str = os.getenv('DB_PASSWORD')
+    DB_DATABASE: str = os.getenv('DB_DATABASE')
+
+
 
 
 settings = Settings()

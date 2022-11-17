@@ -17,7 +17,8 @@ async def user_me(request: Request):
 
 @router.get('/test2')
 async def test2():
-    return JSONResponse(status_code=200, content={"result": "success", "message": "수정 성공"})
+    user_list = await crud_user.user.crud_test()
+    return {"result": "success", "message": "조회성공", "data": user_list}
 
 @router.get('/query')
 async def user_query(text: Optional[str] = ''):
