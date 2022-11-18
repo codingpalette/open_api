@@ -24,6 +24,40 @@ fake_users_db = {
 
 
 class CRUDUser():
+
+    # 유저 조회
+    async def user_find_one(self, user_login_id):
+        try:
+            conn = await DB.basic()
+            curs = conn.cursor(pymysql.cursors.DictCursor)
+            sql = f'SELECT * FROM user WHERE user_login_id="{user_login_id}"'
+            curs.execute(sql)
+            user_data = curs.fetchone()
+            conn.close()
+            return user_data
+        except Exception as e:
+            print(e)
+            raise HTTPException(status_code=500, detail={"result": "fail", "message": "서버에 문제가 발생했습니다."})
+
+    async def user_create(self, user_login_id, user_password):
+        try:
+            conn = await DB.basic()
+            curs = conn.cursor(pymysql.cursors.DictCursor)
+            sql = f'''
+                INSERT INTO user (user_login_id, user_password) VALUES (%s, %s)
+            '''
+            curs.execute(sql, (
+                user_login_id,
+                user_password
+            ))
+            conn.commit()
+            # print(curs.lastrowid)
+            conn.close()
+            return True
+        except Exception as e:
+            # print(e)
+            raise HTTPException(status_code=500, detail={"result": "fail", "message": "서버에 문제가 발생했습니다."})
+
     async def crud_test(self):
         try:
             conn = await DB.basic()
@@ -54,4 +88,4 @@ class CRUDUser():
             raise HTTPException(status_code=500,  detail={"result": "fail", "message": "서버에 문제가 발생했습니다"})
 
 
-user = CRUDUser()
+user_service = CRUDUser()

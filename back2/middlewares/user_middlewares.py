@@ -28,7 +28,7 @@ class UserMiddlewares:
         access_token = cookies.get("access_token")
 
         if method == "POST":
-            check_list = ['/api/v1/users/login']
+            check_list = ['/api/v1/users/login', '/api/v1/user/create']
             if url in check_list:
                 token_info = await token.token_check('access_token', access_token)
                 if token_info:

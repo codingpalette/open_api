@@ -2,11 +2,12 @@ from typing import Union, Optional
 from fastapi import Depends, FastAPI, HTTPException, status, APIRouter
 from fastapi.responses import JSONResponse
 from core.config import settings
-from crud import crud_user
+from crud.crud_user import user_service
 from starlette.requests import Request
 import schemas
 from functions.token import token
 import datetime
+import bcrypt
 
 router = APIRouter()
 
@@ -15,32 +16,51 @@ router = APIRouter()
 async def user_me(request: Request):
     return request.state.user
 
+
 @router.get('/test2')
 async def test2():
-    user_list = await crud_user.user.crud_test()
+    user_list = await user_service.crud_test()
     return {"result": "success", "message": "조회성공", "data": user_list}
+
 
 @router.get('/query')
 async def user_query(text: Optional[str] = ''):
     return JSONResponse(status_code=200, content={"result": "success", "data": text})
 
+
 @router.get('/check')
 async def user_check():
     return True
 
+
 @router.post('/test')
 async def user_test():
-
     return True
 
-@router.post('/login')
+
+@router.post('/create', summary="유저 회원가입")
+async def user_create(post_data: schemas.user.UserJoin):
+    # 유저 검색
+    user_info = await user_service.user_find_one(post_data.user_login_id)
+    # 유저가 있다면 회원가입 실패
+    if user_info:
+        return JSONResponse(status_code=401, content={"result": "fail", "data": "이미 가입된 아이디 입니다."})
+
+    hashed_password = bcrypt.hashpw(post_data.user_password.encode('utf-8'), bcrypt.gensalt())
+    save_password = hashed_password.decode('utf-8')
+    await user_service.user_create(post_data.user_login_id, save_password)
+
+    return {"result": "success", "message": "회원가입 성공", }
+
+
+@router.post('/login', summary="유저 로그인")
 async def user_login(post_data: schemas.user.UserLogin):
-    user_info = await crud_user.user.user_login(post_data)
+    user_info = await user_service.user_login(post_data)
     access_token = token.create_token("access_token", user_info)
     refresh_token = token.create_token('refresh_token')
     print('access_token', access_token)
     print('refresh_token', refresh_token)
-    token_update = await crud_user.user.user_refresh_token_update(user_info, refresh_token)
+    token_update = await user_service.user_refresh_token_update(user_info, refresh_token)
     if token_update:
         access_token_time = datetime.datetime.utcnow() + datetime.timedelta(days=settings.ACCESS_TOKEN_TIME)
         refresh_token_time = datetime.datetime.utcnow() + datetime.timedelta(days=settings.REFRESH_TOKEN_TIME)

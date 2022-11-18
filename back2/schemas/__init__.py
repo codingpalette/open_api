@@ -1,1 +1,1 @@
-from .user import UserLogin
+from .user import UserLogin, UserJoin
