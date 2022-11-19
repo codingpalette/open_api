@@ -61,5 +61,27 @@ class CRUDUser():
             print(e)
             raise HTTPException(status_code=500,  detail={"result": "fail", "message": "서버에 문제가 발생했습니다"})
 
+    # 유저 로그아웃
+    async def user_logout(self, user_login_id):
+        try:
+            conn = await DB.basic()
+            curs = conn.cursor(pymysql.cursors.DictCursor)
+
+            sql = f'''
+                UPDATE user SET user_refresh_token = %s 
+                WHERE user_login_id = %s
+            '''
+
+            curs.execute(sql, (
+                '',
+                user_login_id
+            ))
+            conn.commit()
+            conn.close()
+            return True
+
+        except Exception as e:
+            print(e)
+            raise HTTPException(status_code=500,  detail={"result": "fail", "message": "서버에 문제가 발생했습니다"})
 
 user_service = CRUDUser()

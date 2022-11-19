@@ -82,3 +82,16 @@ async def user_login(post_data: schemas.user.UserLogin):
         return response
     else:
         raise HTTPException(status_code=401, detail={"result": "fail", "message": "로그인에 실패했습니다."})
+
+
+@router.post('/logout', summary="로그아웃")
+async def logout(request: Request):
+    delete_token = await user_service.user_logout(request.state.user["user_login_id"])
+    if delete_token:
+        content = {"result": "success", "message": "로그아웃 성공"}
+        response = JSONResponse(content=content)
+        response.delete_cookie("access_token")
+        response.delete_cookie("refresh_token")
+        return response
+    else:
+        return JSONResponse(status_code=401, content={"result": "fail", "message": "로그아웃에 실패했습니다"})
