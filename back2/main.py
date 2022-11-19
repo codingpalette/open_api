@@ -4,13 +4,24 @@ import uvicorn
 from starlette.middleware.base import BaseHTTPMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 from api.api_v1.api import api_router
+from api.api_v1.table_api import table_api_router
 from core.config import settings
 from middlewares.user_middlewares import user_middlewares
 
 
 
+description = f"""
+<div>
+    -------------------------------<br>
+    <a href="/docs">[ 기본api ]</a><br>
+    <a href="{settings.API_V1_STR}/table/docs">[ 테이블api ]</a><br>
+    -------------------------------
+</div>
+"""
+
 def create_app():
-    app = FastAPI(title="기본api")
+    app = FastAPI(title="기본api", description=description)
+    table_app = FastAPI(title="테이블api", description=description)
 
     origins = [
         'http://localhost:3000',
@@ -41,6 +52,11 @@ def create_app():
 
 
     app.include_router(api_router, prefix=settings.API_V1_STR)  # 인증
+
+
+    # 테이블 관리
+    table_app.include_router(table_api_router)
+    app.mount(f"{settings.API_V1_STR}/table", table_app)
 
     return app
 
