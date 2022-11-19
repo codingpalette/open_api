@@ -17,12 +17,6 @@ async def user_me(request: Request):
     return request.state.user
 
 
-@router.get('/test2')
-async def test2():
-    user_list = await user_service.crud_test()
-    return {"result": "success", "message": "조회성공", "data": user_list}
-
-
 @router.get('/query')
 async def user_query(text: Optional[str] = ''):
     return JSONResponse(status_code=200, content={"result": "success", "data": text})
@@ -30,11 +24,6 @@ async def user_query(text: Optional[str] = ''):
 
 @router.get('/check')
 async def user_check():
-    return True
-
-
-@router.post('/test')
-async def user_test():
     return True
 
 
@@ -55,12 +44,22 @@ async def user_create(post_data: schemas.user.UserJoin):
 
 @router.post('/login', summary="유저 로그인")
 async def user_login(post_data: schemas.user.UserLogin):
-    user_info = await user_service.user_login(post_data)
+    # 아이디가 있는지 검사
+    user_info = await user_service.user_find_one(post_data.user_login_id)
+    if not user_info:
+        return JSONResponse(status_code=401, content={"result": "fail", "message": "존재하지 않는 아이디 입니다"})
+    # 비밀번호 체크
+    password_check = bcrypt.checkpw(post_data.user_password.encode('utf-8'), user_info['user_password'].encode('utf-8'))
+    if not password_check:
+        return JSONResponse(status_code=401, content={"result": "fail", "message": "비밀번호가 틀립니다"})
+
+    del(user_info["user_password"])
     access_token = token.create_token("access_token", user_info)
     refresh_token = token.create_token('refresh_token')
-    print('access_token', access_token)
-    print('refresh_token', refresh_token)
-    token_update = await user_service.user_refresh_token_update(user_info, refresh_token)
+    # print('access_token', access_token)
+    # print('refresh_token', refresh_token)
+    # 리프레시 토큰 업데이트
+    token_update = await user_service.user_refresh_token_update(user_info["user_login_id"], refresh_token)
     if token_update:
         access_token_time = datetime.datetime.utcnow() + datetime.timedelta(days=settings.ACCESS_TOKEN_TIME)
         refresh_token_time = datetime.datetime.utcnow() + datetime.timedelta(days=settings.REFRESH_TOKEN_TIME)
