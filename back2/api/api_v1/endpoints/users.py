@@ -28,7 +28,8 @@ async def user_check():
 
 
 @router.post('/create', summary="유저 회원가입")
-async def user_create(post_data: schemas.user.UserJoin):
+async def user_create(request: Request, post_data: schemas.user.UserJoin):
+    client_ip = request.client.host
     # 유저 검색
     user_info = await user_service.user_find_one(post_data.user_login_id)
     # 유저가 있다면 회원가입 실패
@@ -37,13 +38,14 @@ async def user_create(post_data: schemas.user.UserJoin):
 
     hashed_password = bcrypt.hashpw(post_data.user_password.encode('utf-8'), bcrypt.gensalt())
     save_password = hashed_password.decode('utf-8')
-    await user_service.user_create(post_data.user_login_id, save_password)
+    await user_service.user_create(post_data.user_login_id, save_password, client_ip)
 
     return {"result": "success", "message": "회원가입 성공", }
 
 
 @router.post('/login', summary="유저 로그인")
-async def user_login(post_data: schemas.user.UserLogin):
+async def user_login(request: Request, post_data: schemas.user.UserLogin):
+    client_ip = request.client.host
     # 아이디가 있는지 검사
     user_info = await user_service.user_find_one(post_data.user_login_id)
     if not user_info:
@@ -59,7 +61,7 @@ async def user_login(post_data: schemas.user.UserLogin):
     # print('access_token', access_token)
     # print('refresh_token', refresh_token)
     # 리프레시 토큰 업데이트
-    token_update = await user_service.user_refresh_token_update(user_info["user_login_id"], refresh_token)
+    token_update = await user_service.user_refresh_token_update(user_info["user_login_id"], refresh_token, client_ip)
     if token_update:
         access_token_time = datetime.datetime.utcnow() + datetime.timedelta(days=settings.ACCESS_TOKEN_TIME)
         refresh_token_time = datetime.datetime.utcnow() + datetime.timedelta(days=settings.REFRESH_TOKEN_TIME)

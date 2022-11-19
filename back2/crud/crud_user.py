@@ -20,16 +20,17 @@ class CRUDUser():
             raise HTTPException(status_code=500, detail={"result": "fail", "message": "서버에 문제가 발생했습니다."})
 
     # 유저 생성
-    async def user_create(self, user_login_id, user_password):
+    async def user_create(self, user_login_id, user_password, client_ip):
         try:
             conn = await DB.basic()
             curs = conn.cursor(pymysql.cursors.DictCursor)
             sql = f'''
-                INSERT INTO user (user_login_id, user_password) VALUES (%s, %s)
+                INSERT INTO user (user_login_id, user_password, user_register_ip) VALUES (%s, %s, %s)
             '''
             curs.execute(sql, (
                 user_login_id,
-                user_password
+                user_password,
+                client_ip
             ))
             conn.commit()
             # print(curs.lastrowid)
@@ -40,18 +41,20 @@ class CRUDUser():
             raise HTTPException(status_code=500, detail={"result": "fail", "message": "서버에 문제가 발생했습니다."})
 
     # 유저 리프레시 토큰 업데이트
-    async def user_refresh_token_update(self, user_login_id, refresh_token):
+    async def user_refresh_token_update(self, user_login_id, refresh_token, client_ip):
         try:
             conn = await DB.basic()
             curs = conn.cursor(pymysql.cursors.DictCursor)
 
             sql = f'''
                 UPDATE user SET
-                user_refresh_token = %s
+                user_refresh_token = %s,
+                user_lastlogin_ip = %s
                 WHERE user_login_id = %s
             '''
             curs.execute(sql, (
                 refresh_token,
+                client_ip,
                 user_login_id
             ))
             conn.commit()
