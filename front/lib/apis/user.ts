@@ -1,19 +1,19 @@
 import apiCreator from "../apiCreator";
-import {UserLogin} from "../types/uaer_type";
+import {UserCreate, UserLogin} from "../types/uaer_type";
 import fetcher from "../fetcher";
 import useSWR from 'swr'
 
 
-// 유저 로그인 api
-export const userLogin = async (params: UserLogin) => {
-  const response = await apiCreator.post('/api/v1/users/login', params)
-  return response.data
+// 유저 회원가입 api
+export const userCreate = async (params: UserCreate) => {
+  const res = await apiCreator.post('/api/v1/users/create', params)
+  return res.data
 }
 
-// 유저 테스트 api
-export const userTest = async () => {
-  const response = await apiCreator.post('/api/v1/users/test')
-  return response.data
+// 유저 로그인 api
+export const userLogin = async (params: UserLogin) => {
+  const res = await apiCreator.post('/api/v1/users/login', params)
+  return res.data
 }
 
 // 유저 me api
@@ -27,6 +27,12 @@ export const userMe = () => {
     isError: error,
     mutate
   }
+}
+
+// 유저 로그아웃 api
+export const userLogout = async () => {
+  const res = await apiCreator.post('/api/v1/users/logout')
+  return res.data
 }
 
 // 쿼리 테스트 api

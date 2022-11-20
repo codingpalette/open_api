@@ -1,5 +1,5 @@
 import {useRouter} from "next/navigation";
-import {userMe} from "../../lib/apis/uaer";
+import {userMe} from "../../lib/apis/user";
 import {useEffect} from "react";
 
 

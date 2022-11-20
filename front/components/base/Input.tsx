@@ -50,7 +50,7 @@ const InputTag = styled.input`
     mt-1 
     block 
     w-full 
-    p-4
+    p-2
     rounded-md 
     border-solid border-2 border-indigo-600
     shadow-sm 

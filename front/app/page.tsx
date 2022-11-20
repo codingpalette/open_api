@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Button from '../components/base/Button';
 import Input from '../components/base/Input';
 import useInput from '../hooks/useInput';
-import {userLogin} from "../lib/apis/uaer";
+import {userLogin, userLogout, userMe} from "../lib/apis/user";
 import {AxiosError} from "axios";
 import BasicLayout from "../components/layouts/BasicLayout";
 import Link from "next/link";
@@ -15,7 +15,7 @@ import useSWR from 'swr'
 
 
 export default function Page() {
-
+  const {data, isLoading, isError, mutate} = userMe()
 
   const [value, onChangeValue, resetValue] = useInput('');
 
@@ -23,27 +23,15 @@ export default function Page() {
     console.log('value', value);
   }, [value]);
 
-  const onClickTest = async () => {
-    // try {
-    //   console.log(res);
-    // } catch (e) {
-    //   console.error('error', e);
-    // }
-  };
-
-  const onClickTest2 = async () => {
+  const onClickLogout = async () => {
     try {
-      const res = await userLogin({username: 'string', password: 'string' });
-      console.log(res);
-    } catch (error) {
-      const { response } = error as unknown as AxiosError;
-      if (response) {
-        console.log(response.data)
-        throw { status: response.status, data: response.data };
-      }
-      throw error;
+      const res = await userLogout()
+      console.log('res', res)
+      await mutate(undefined)
+    } catch (e) {
+      console.error(e)
     }
-  };
+  }
 
   return (
     <>
@@ -56,8 +44,6 @@ export default function Page() {
         <div>
           <Input value={value} onChange={onChangeValue} />
         </div>
-        <div onClick={onClickTest}>통신 테스트</div>
-        <div onClick={onClickTest2}>통신 테스트2</div>
 
         <div className="mt-4">
           <p>링크박스</p>
@@ -66,6 +52,11 @@ export default function Page() {
               about
             </Link>
           </div>
+        </div>
+        
+        <div>
+          <p>로그아웃</p>
+          <Button onClick={onClickLogout}>로그아웃</Button>
         </div>
       </BasicLayout>
     </>

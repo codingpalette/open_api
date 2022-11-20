@@ -1,6 +1,6 @@
 'use client';
 
-import {userQuery} from "../../lib/apis/uaer";
+import {userQuery} from "../../lib/apis/user";
 import {useEffect} from "react";
 import useInput from "../../hooks/useInput";
 import Input from "../../components/base/Input";

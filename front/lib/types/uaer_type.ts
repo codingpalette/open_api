@@ -1,7 +1,9 @@
 export interface User {
-  username: string
+  user_login_id: string
 }
 
 export interface UserLogin extends User {
-  password: string
+  user_password: string
 }
+
+export interface UserCreate extends UserLogin {}

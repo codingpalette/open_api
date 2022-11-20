@@ -39,4 +39,8 @@ const Button2 = styled.button(({ theme }) => [
   theme && tw`bg-black text-white border-black`,
 ]);
 
+Button.defaultProps = {
+  theme: "primary"
+}
+
 export default Button;
