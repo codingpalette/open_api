@@ -17,14 +17,11 @@ class Token():
 
         return jwt.encode(to_encode, settings.TOKEN_KEY, algorithm=settings.ALG)
 
-    async def token_check(self, type, token):
-        if type == "access_token":
-            try:
-                return jwt.decode(token, settings.TOKEN_KEY, algorithms=settings.ALG)
-            except Exception:
-                return False
-
-        return True
+    async def token_check(self, token):
+        try:
+            return jwt.decode(token, settings.TOKEN_KEY, algorithms=settings.ALG)
+        except Exception:
+            return False
 
 
 token = Token()

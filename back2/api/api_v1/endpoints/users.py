@@ -12,7 +12,7 @@ import bcrypt
 router = APIRouter()
 
 
-@router.get('/me')
+@router.get('/me', summary="내 정보 가져오기")
 async def user_me(request: Request):
     return request.state.user
 
@@ -21,10 +21,33 @@ async def user_me(request: Request):
 async def user_query(text: Optional[str] = ''):
     return JSONResponse(status_code=200, content={"result": "success", "data": text})
 
+@router.get('/token_refresh', summary="토큰 갱신")
+async def user_token_refresh(request: Request):
+    cookies = request.cookies
+    user_info = request.state.user
+    refresh_token = cookies.get("refresh_token")
+    # 리프레시 토큰이 유효한지 검사한다.
+    token_info = await token.token_check(refresh_token)
+    if not token_info:
+        content = {"result": "fail", "message": "인증 실패"}
+        response = JSONResponse(status_code=401, content=content)
+        response.delete_cookie("access_token")
+        response.delete_cookie("refresh_token")
+        return response
 
-@router.get('/check')
-async def user_check():
-    return True
+    # 유효하다면 엑세스 토큰을 갱신시켜준다.
+    access_token = token.create_token("access_token", user_info)
+    access_token_time = datetime.datetime.utcnow() + datetime.timedelta(days=settings.ACCESS_TOKEN_TIME)
+    content = {"result": "success", "message": "토큰 갱신 성공"}
+    response = JSONResponse(content=content)
+    response.set_cookie(
+        key="access_token",
+        value=access_token,
+        secure=True,
+        httponly=True,
+        expires=access_token_time.strftime("%a, %d %b %Y %H:%M:%S GMT"),
+    )
+    return response
 
 
 @router.post('/create', summary="유저 회원가입")

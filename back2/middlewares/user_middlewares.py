@@ -12,7 +12,7 @@ class UserMiddlewares:
         if method == "GET":
             check_list = ['/api/v1/users/me']
             if url in check_list:
-                token_info = await token.token_check('access_token', access_token)
+                token_info = await token.token_check(access_token)
                 if token_info:
                     request.state.user = token_info
                 else:
@@ -30,7 +30,7 @@ class UserMiddlewares:
         if method == "POST":
             check_list = ['/api/v1/users/login', '/api/v1/user/create']
             if url in check_list:
-                token_info = await token.token_check('access_token', access_token)
+                token_info = await token.token_check(access_token)
                 if token_info:
                     return JSONResponse(status_code=401, content={"result": "fail", "message": "로그아웃 후 가능합니다."})
 
@@ -47,7 +47,16 @@ class UserMiddlewares:
         if method == "POST":
             check_list = ['/api/v1/users/test', '/api/v1/users/logout']
             if url in check_list:
-                token_info = await token.token_check('access_token', access_token)
+                token_info = await token.token_check(access_token)
+                if token_info:
+                    request.state.user = token_info
+                else:
+                    return JSONResponse(status_code=401, content={"result": "fail", "message": "로그인 후 가능합니다."})
+
+        elif method == "GET":
+            check_list = ['/api/v1/users/token_refresh']
+            if url in check_list:
+                token_info = await token.token_check(access_token)
                 if token_info:
                     request.state.user = token_info
                 else:

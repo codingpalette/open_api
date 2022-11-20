@@ -29,6 +29,12 @@ export const userMe = () => {
   }
 }
 
+// 유저 토큰 갱신 api
+export const userTokenRefresh = async () => {
+  const res = await apiCreator.get('/api/v1/users/token_refresh')
+  return res.data
+}
+
 // 유저 로그아웃 api
 export const userLogout = async () => {
   const res = await apiCreator.post('/api/v1/users/logout')
