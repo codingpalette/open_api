@@ -1,21 +1,19 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import Button from '../components/base/Button';
 import Input from '../components/base/Input';
 import useInput from '../hooks/useInput';
-import {userLogin, userLogout, userMe} from "../lib/apis/user";
-import {AxiosError} from "axios";
+import {userLogout, userMe} from "../lib/apis/user";
 import BasicLayout from "../components/layouts/BasicLayout";
 import Link from "next/link";
-import fetcher from "../lib/fetcher";
-import useSWR from 'swr'
 
 
 
 
 export default function Page() {
-  const {data, isLoading, isError, mutate} = userMe()
+  // const {data, isLoading, isError, mutate} = userMe()
+
 
   const [value, onChangeValue, resetValue] = useInput('');
 
@@ -25,9 +23,9 @@ export default function Page() {
 
   const onClickLogout = async () => {
     try {
-      const res = await userLogout()
-      console.log('res', res)
-      await mutate(undefined)
+      // const res = await userLogout()
+      // console.log('res', res)
+      // await mutate(undefined)
     } catch (e) {
       console.error(e)
     }
@@ -52,6 +50,11 @@ export default function Page() {
               about
             </Link>
           </div>
+        </div>
+
+        <div>
+          <div>sdfsd</div>
+          {process.env.NEXT_PUBLIC_MOVIE_APP_KEY}
         </div>
         
         <div>

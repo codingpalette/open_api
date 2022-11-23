@@ -2,6 +2,7 @@ import apiCreator from "../apiCreator";
 import {UserCreate, UserLogin} from "../types/uaer_type";
 import fetcher from "../fetcher";
 import useSWR from 'swr'
+import {useQuery} from "@tanstack/react-query";
 
 
 // 유저 회원가입 api
@@ -17,15 +18,26 @@ export const userLogin = async (params: UserLogin) => {
 }
 
 // 유저 me api
+// export const userMe = () => {
+//   const { data, error, mutate, isValidating } = useSWR(`/api/v1/users/me`, fetcher, {
+//     // refreshInterval: 1000
+//   })
+//   return {
+//     data,
+//     isLoading: !error && !data,
+//     isError: error,
+//     mutate
+//   }
+// }
+
 export const userMe = () => {
-  const { data, error, mutate, isValidating } = useSWR(`/api/v1/users/me`, fetcher, {
-    // refreshInterval: 1000
-  })
+  // Queries
+  const {data, isLoading, isError, error} = useQuery({ queryKey: ['user_me'], queryFn: () => fetcher('/api/v1/users/me') })
   return {
     data,
-    isLoading: !error && !data,
-    isError: error,
-    mutate
+    isLoading,
+    isError,
+    error
   }
 }
 
