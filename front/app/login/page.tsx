@@ -5,11 +5,12 @@ import {AxiosError} from "axios";
 import {useRouter} from "next/navigation";
 import {useEffect} from "react";
 import Button from "../../components/base/Button";
+import {useQueryClient} from "@tanstack/react-query";
 
 
-export default function login () {
-  // const router = useRouter()
-  // const {data, isLoading, isError, mutate} = userMe()
+const Page = () => {
+  const queryClient = useQueryClient();
+
 
   const onClickUserCreate = async () => {
     try {
@@ -26,7 +27,7 @@ export default function login () {
   const onClickLogin = async () => {
     try {
       await userLogin({user_login_id:'string', user_password: 'string'})
-      // await mutate()
+      await queryClient.invalidateQueries(["user_me"]);
     } catch (e) {
       const { response } = e as unknown as AxiosError;
       if (response) {
@@ -61,3 +62,5 @@ export default function login () {
     </>
   )
 }
+
+export default Page

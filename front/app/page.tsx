@@ -7,11 +7,15 @@ import useInput from '../hooks/useInput';
 import {userLogout, userMe} from "../lib/apis/user";
 import BasicLayout from "../components/layouts/BasicLayout";
 import Link from "next/link";
+import {useQueryClient} from "@tanstack/react-query";
+import {useRouter} from "next/navigation";
 
 
 
 
 export default function Page() {
+  const queryClient = useQueryClient();
+  const router = useRouter();
   // const {data, isLoading, isError, mutate} = userMe()
 
 
@@ -23,9 +27,10 @@ export default function Page() {
 
   const onClickLogout = async () => {
     try {
-      // const res = await userLogout()
-      // console.log('res', res)
-      // await mutate(undefined)
+      const res = await userLogout()
+      console.log('res', res)
+      queryClient.clear();
+      router.replace("/login");
     } catch (e) {
       console.error(e)
     }
