@@ -8,6 +8,7 @@ class UserMiddlewares:
         url = request.url.path
         method = request.method
         cookies = request.cookies
+        # print('cookies', cookies)
         access_token = cookies.get("access_token")
         if method == "GET":
             check_list = ['/api/v1/users/me']
