@@ -1,8 +1,9 @@
 import apiCreator from "../apiCreator";
-import {UserCreate, UserLogin} from "../types/uaer_type";
+import {UserCreate, UserLogin, UserQuery} from "../types/uaer_type";
 import fetcher from "../fetcher";
 import useSWR from 'swr'
 import {useQuery} from "@tanstack/react-query";
+import searchFetcher from "../searchFetcher";
 
 
 // 유저 회원가입 api
@@ -70,5 +71,20 @@ export const userQuery = (where: any) => {
     data,
     isLoading: !error && !data,
     isError: error,
+  }
+}
+
+// 쿼리 테스트 api2
+export const userQuery2 = (params: UserQuery) => {
+  const {data, isLoading, isError, error} = useQuery({
+    queryKey: ['user_query', params],
+    queryFn: () => searchFetcher('/api/v1/users/query', params)
+  })
+
+  return {
+    data,
+    isLoading,
+    isError,
+    error
   }
 }

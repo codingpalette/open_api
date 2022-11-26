@@ -7,3 +7,7 @@ export interface UserLogin extends User {
 }
 
 export interface UserCreate extends UserLogin {}
+
+export interface UserQuery {
+  text: string
+}

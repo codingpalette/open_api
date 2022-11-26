@@ -1,6 +1,6 @@
 'use client';
 
-import {userQuery} from "../../lib/apis/user";
+import {userQuery, userQuery2} from "../../lib/apis/user";
 import {useEffect} from "react";
 import useInput from "../../hooks/useInput";
 import Input from "../../components/base/Input";
@@ -11,7 +11,7 @@ const Page = () => {
   const [value, onChangeValue] = useInput('')
   const debouncedFilter = useDebounce(value, 500);
 
-  const { data } = userQuery({text:debouncedFilter, bb: 'b'})
+  const { data } = userQuery2({text:debouncedFilter})
 
 
   useEffect(() => {
