@@ -20,7 +20,6 @@ class Settings(BaseSettings):
     DB_PASSWORD: str = os.getenv('DB_PASSWORD')
     DB_DATABASE: str = os.getenv('DB_DATABASE')
 
-    TEST_TEXT = os.getenv('TEST')
 
 
 
