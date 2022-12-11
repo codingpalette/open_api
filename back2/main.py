@@ -44,8 +44,7 @@ def create_app():
 
     @app.get("/")
     def read_root():
-        text = settings.TEST_TEXT
-        return {"Hello": f"World {text}"}
+        return {"Hello": "World"}
 
     @app.get("/items/{item_id}")
     def read_item(item_id: int, q: Optional[str] = None):
