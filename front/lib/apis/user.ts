@@ -19,17 +19,17 @@ export const userLogin = async (params: UserLogin) => {
 }
 
 // 유저 me api
-// export const userMe = () => {
-//   const { data, error, mutate, isValidating } = useSWR(`/api/v1/users/me`, fetcher, {
-//     // refreshInterval: 1000
-//   })
-//   return {
-//     data,
-//     isLoading: !error && !data,
-//     isError: error,
-//     mutate
-//   }
-// }
+export const userMe2 = () => {
+  const { data, error, mutate, isValidating } = useSWR(`/api/v1/users/me`, fetcher, {
+    // refreshInterval: 1000
+  })
+  return {
+    data,
+    isLoading: !error && !data,
+    isError: error,
+    mutate
+  }
+}
 
 export const userMe = () => {
   // Queries

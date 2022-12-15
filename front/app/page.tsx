@@ -61,10 +61,17 @@ export default function Page() {
           <div>sdfsd</div>
           {process.env.NEXT_PUBLIC_MOVIE_APP_KEY}
         </div>
-        
+
         <div>
           <p>로그아웃</p>
           <Button onClick={onClickLogout}>로그아웃</Button>
+        </div>
+
+        <div>
+          <p>fetch ssr을 이용해서 유저 정보 가져오기</p>
+          <div>
+            <Link href="/ssr2">바로가기</Link>
+          </div>
         </div>
       </BasicLayout>
     </>
