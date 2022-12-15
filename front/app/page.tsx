@@ -38,42 +38,43 @@ export default function Page() {
 
   return (
     <>
-      <BasicLayout>
-        <h1>Hello, Next.js!</h1>
-        <h1 className="text-3xl font-bold underline">Hello world!</h1>
-        <Button theme="primary" onClick={resetValue}>
-          리셋 버튼
-        </Button>
-        <div>
-          <Input value={value} onChange={onChangeValue} />
-        </div>
+      메인 페이지
+      {/*<BasicLayout>*/}
+      {/*  <h1>Hello, Next.js!</h1>*/}
+      {/*  <h1 className="text-3xl font-bold underline">Hello world!</h1>*/}
+      {/*  <Button theme="primary" onClick={resetValue}>*/}
+      {/*    리셋 버튼*/}
+      {/*  </Button>*/}
+      {/*  <div>*/}
+      {/*    <Input value={value} onChange={onChangeValue} />*/}
+      {/*  </div>*/}
 
-        <div className="mt-4">
-          <p>링크박스</p>
-          <div>
-            <Link href="/about">
-              about
-            </Link>
-          </div>
-        </div>
+      {/*  <div className="mt-4">*/}
+      {/*    <p>링크박스</p>*/}
+      {/*    <div>*/}
+      {/*      <Link href="/about">*/}
+      {/*        about*/}
+      {/*      </Link>*/}
+      {/*    </div>*/}
+      {/*  </div>*/}
 
-        <div>
-          <div>sdfsd</div>
-          {process.env.NEXT_PUBLIC_MOVIE_APP_KEY}
-        </div>
+      {/*  <div>*/}
+      {/*    <div>sdfsd</div>*/}
+      {/*    {process.env.NEXT_PUBLIC_MOVIE_APP_KEY}*/}
+      {/*  </div>*/}
 
-        <div>
-          <p>로그아웃</p>
-          <Button onClick={onClickLogout}>로그아웃</Button>
-        </div>
+      {/*  <div>*/}
+      {/*    <p>로그아웃</p>*/}
+      {/*    <Button onClick={onClickLogout}>로그아웃</Button>*/}
+      {/*  </div>*/}
 
-        <div>
-          <p>fetch ssr을 이용해서 유저 정보 가져오기</p>
-          <div>
-            <Link href="/ssr2">바로가기</Link>
-          </div>
-        </div>
-      </BasicLayout>
+      {/*  <div>*/}
+      {/*    <p>fetch ssr을 이용해서 유저 정보 가져오기</p>*/}
+      {/*    <div>*/}
+      {/*      <Link href="/ssr2">바로가기</Link>*/}
+      {/*    </div>*/}
+      {/*  </div>*/}
+      {/*</BasicLayout>*/}
     </>
   );
 }
